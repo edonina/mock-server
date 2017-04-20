@@ -1189,7 +1189,7 @@ var CoursesService = (function () {
     function CoursesService(myLimitByDate, http) {
         this.myLimitByDate = myLimitByDate;
         this.http = http;
-        this.courseListUrl = 'http://localhost:3004/courses';
+        this.courseListUrl = 'http://localhost:3004/courseslist';
         this.courseList = new __WEBPACK_IMPORTED_MODULE_6_rxjs__["BehaviorSubject"]([]);
         this.courseListView = new __WEBPACK_IMPORTED_MODULE_6_rxjs__["BehaviorSubject"]([]);
         /*this.courseListData = [
@@ -1240,27 +1240,7 @@ var CoursesService = (function () {
         console.log('-------');
         this.courseListData = this.http.get(this.courseListUrl)
             .map(function (response) { return response.json(); })
-            .map(function (courseItems) {
-            // change return value structure here if you want
-            //courseItems = [];
-            console.log(courseItems);
-            console.log('00000000000000');
-            return courseItems;
-        });
-        /*.map((response: Response) => {
-            console.log(response);
-            console.log(response.json());
-            return response.json()
-        })
-        .map((courseItems:any) => {
-        // change return value structure here if you want
-        console.log('00000000000000');
-        console.log(courseItems);
-        console.log(courseItems.courses);
-        return courseItems;
-    })*/
-        /*.map(item => {
-
+            .map(function (item) {
             console.log(item);
             return {
                 id: item['id'],
@@ -1269,8 +1249,12 @@ var CoursesService = (function () {
                 date: item['date'],
                 duration: item['length'],
                 topRated: item['isTopRated']
-            }
-        });*/
+            };
+        })
+            .map(function (r) {
+            console.log(r);
+            return r;
+        });
         /*
                 this.courseListData = this.courseListData.map(item => {
                     console.log(item);
@@ -1283,6 +1267,7 @@ var CoursesService = (function () {
                         topRated: item['topRated']
                     }
                 });*/
+        console.log(this.courseListData);
         this.courseListLimited = this.myLimitByDate.transform(this.courseListData);
         this.courseList.next(this.courseListLimited);
         return this.courseListData;
