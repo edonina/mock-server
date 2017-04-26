@@ -14,6 +14,11 @@ module.exports = (server) => {
 			courses = server.db.getState().courses;
 		console.log(sort);
 		console.log(queryStr);
+		if(queryStr){
+			courses = courses.filter((el) => {
+					return el['name'].toLowerCase().indexOf(queryStr) >= 0;
+			});
+		}
 		if (courses.length < to) {
 			to = courses.length;
 		}
@@ -25,14 +30,10 @@ module.exports = (server) => {
 	router.post('/courses/delete', (req, res, next) => {
 		let courses = server.db.getState().courses;
 		let courseArrayIndex = courses.findIndex(course => course.id === req.body.id);
-		//console.log('req.body.id ',req.body.id);
 
 		console.log(courseArrayIndex);
 		if (courseArrayIndex != -1) {
-			//console.log(courses);
 			courses.splice(courseArrayIndex, 1);
-			//console.log(courses);
-			//server.db.setState({'courses':courses});
 		}
 
 
