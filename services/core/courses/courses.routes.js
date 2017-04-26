@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.use(jsonServer.rewriter({
 	'/courses': '/courses',
+	'/courses/delete': '/courses/delete',
 	'/courses/:id': '/courses/:id',
 }));
 
