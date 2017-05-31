@@ -34,10 +34,34 @@ module.exports = (server) => {
 			//console.log(courses);
 			//server.db.setState({'courses':courses});
 		}
-
-
-
 		res.json(courses);
+	});
+
+	router.post('/courses/get', (req, res, next) => {
+		let courses = server.db.getState().courses;
+		let courseArrayIndex = courses.findIndex(course => course.id === req.body.id);
+		//console.log('req.body.id ',req.body.id);
+
+		console.log(courseArrayIndex);
+		if (courseArrayIndex != -1) {
+			res.json(courses[courseArrayIndex]);
+		}else{
+			res.json([]);
+		}
+
+	});
+
+	router.post('/courses/save', (req, res, next) => {
+		let courses = server.db.getState().courses;
+		let course = req.body.course;
+		let courseArrayIndex = courses.findIndex(course => course.id === course.id);
+		console.log(courseArrayIndex);
+		if (courseArrayIndex != -1) {
+			courses[courseArrayIndex] = course;
+			res.json(courses[courseArrayIndex]);
+		} else {
+			res.json([]);
+		}
 	});
 	
 	return router;
